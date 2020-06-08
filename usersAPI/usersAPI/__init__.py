@@ -7,13 +7,17 @@ import redis
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 api = Api()
-revoked_store = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 #print('Revoked Store ID: ', id(revoked_store))
 
-from usersAPI.config import Config
+from usersAPI.config import InAppConfig, RedisConfig
+revoked_store = redis.Redis(host=RedisConfig.HOST, 
+                            port=RedisConfig.PORT, 
+                            db=RedisConfig.DB, 
+                            decode_responses=True)
+
 from usersAPI.authentication import jwt
 
-def create_app(config_class = Config):
+def create_app(config_class = InAppConfig):
     app = Flask(__name__)
     app.config.from_object(config_class)
 

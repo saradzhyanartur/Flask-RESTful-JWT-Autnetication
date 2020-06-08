@@ -1,7 +1,7 @@
 {
 	"variables": [],
 	"info": {
-		"name": "DarkToadAuthentication",
+		"name": "FlaskUserBaseAPI",
 		"_postman_id": "579a0d09-3741-ec0b-3aeb-bba4ec728953",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
@@ -10,7 +10,7 @@
 		{
 			"name": "/user/<int: id>",
 			"request": {
-				"url": "{{url}}/user/<int: id>",
+				"url": "{{url}}/user/1",
 				"method": "GET",
 				"header": [
 					{
@@ -27,7 +27,7 @@
 		{
 			"name": "/user/<int: id>",
 			"request": {
-				"url": "{{url}}/user/<int: id>",
+				"url": "{{url}}/user/1",
 				"method": "DELETE",
 				"header": [
 					{

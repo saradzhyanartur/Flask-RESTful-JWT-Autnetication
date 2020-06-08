@@ -1,9 +1,17 @@
 from datetime import timedelta
 
+#Global Configuration
 ACCESS_EXPIRES = timedelta(minutes=15)
 REFRESH_EXPIRES = timedelta(days=30)
 
-class Config(object):
+#Redis
+class RedisConfig(object):
+    HOST = 'localhost'
+    PORT = 6379
+    DB = 0
+
+#App + Extensions
+class InAppConfig(object):
     DEBUG = True
     SERVER_NAME = "127.0.0.1:9000"
     SECRET_KEY = '5b3142dbebffc28cfe6f840d97ea770c74dd7afd' #RESET
