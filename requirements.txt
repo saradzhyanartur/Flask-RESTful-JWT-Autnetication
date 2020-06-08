@@ -4,3 +4,4 @@ Flask-JWT-Extended==3.24.1
 Flask-SQLAlchemy==2.4.3
 Flask-Bcrypt==0.7.1
 Marshmallow==3.6.1
+redis==3.5.3

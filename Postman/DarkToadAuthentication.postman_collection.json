@@ -1,0 +1,182 @@
+{
+	"variables": [],
+	"info": {
+		"name": "DarkToadAuthentication",
+		"_postman_id": "579a0d09-3741-ec0b-3aeb-bba4ec728953",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/user/<int: id>",
+			"request": {
+				"url": "{{url}}/user/<int: id>",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Shows {username} and {user_id} for a user"
+			},
+			"response": []
+		},
+		{
+			"name": "/user/<int: id>",
+			"request": {
+				"url": "{{url}}/user/<int: id>",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Deletes user from db by id"
+			},
+			"response": []
+		},
+		{
+			"name": "/user/register",
+			"request": {
+				"url": "{{url}}/user/register",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"Beast\",\n\t\"password\": \"samplePWD\"\n}"
+				},
+				"description": "Adds user to database. Requires json headers and {username} and {password} in the body"
+			},
+			"response": []
+		},
+		{
+			"name": "/auth/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"ACCESS TOKEN ACQUIRED\"] = jsonData.access_token !== undefined",
+							"tests[\"REFRESH TOKEN ACQUIRED\"] = jsonData.refresh_token !== undefined",
+							"",
+							"",
+							"postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);",
+							"postman.setEnvironmentVariable(\"refresh_token\", jsonData.refresh_token);",
+							"",
+							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/auth/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"Beast\",\n\t\"password\": \"samplePWD\"\n}"
+				},
+				"description": "Checks user credentials against user db on the server. If credentials exist returns access and refresh JSON Web Tokens.\nTakes {username} and {password} as json body"
+			},
+			"response": []
+		},
+		{
+			"name": "/auth/access_refresh",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"ACCESS TOKEN ACQUIRED\"] = jsonData.access_token !== undefined",
+							"",
+							"postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);",
+							"",
+							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/auth/access_refresh",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{refresh_token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "Accepts {refresh_token}in the heders and returns {access_token} in the body"
+			},
+			"response": []
+		},
+		{
+			"name": "/auth/access_revoke",
+			"request": {
+				"url": "{{url}}/auth/access_revoke",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "Accepts {access_token} in the headers and blacklists the passed. Essentially acts as a logout route"
+			},
+			"response": []
+		},
+		{
+			"name": "/auth/refresh_revoke",
+			"request": {
+				"url": "{{url}}/auth/refresh_revoke",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{refresh_token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "Accepts {refresh_token} in the headers and blacklists the passed token. Blocks the access_refresh route for a user."
+			},
+			"response": []
+		}
+	]
+}

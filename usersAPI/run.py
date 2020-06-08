@@ -1,4 +1,4 @@
-from usersAPI import create_app
+from usersAPI import create_app, db
 
 app = create_app()
 

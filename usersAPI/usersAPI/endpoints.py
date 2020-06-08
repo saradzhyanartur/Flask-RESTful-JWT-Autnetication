@@ -1,5 +1,6 @@
 from usersAPI.resources.user import (
-        UserRegister, User, UserLogin, TokenRefresh, UserLogout
+        UserRegister, User, UserLogin, AccessTokenRefresh, AccessTokenRevoke,
+        RefreshTokenRevoke
     )
 
 class Route:
@@ -13,9 +14,11 @@ class Route:
         return f"Route: {self.path}, Description: {self.description}"
 
 exposed = [
-    Route(UserRegister, '/register'),
+    Route(UserRegister, '/user/register'),
     Route(User, '/user/<int:user_id>'),
-    Route(UserLogin, '/login'),
-    Route(TokenRefresh, '/refresh'),
-    Route(UserLogout, '/logout'),
+
+    Route(UserLogin, '/auth/login'),
+    Route(AccessTokenRefresh, '/auth/access_refresh'),
+    Route(AccessTokenRevoke, '/auth/access_revoke'),
+    Route(RefreshTokenRevoke, '/auth/refresh_revoke')
 ]
